@@ -1,0 +1,2 @@
+# calculaterate
+Calculate exchange rate.
