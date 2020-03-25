@@ -26,3 +26,13 @@ input, select{
     border-radius:3px;
     border:1px solid grey;
 }
+.hidden{
+    display:none;
+}
+#loading{
+    min-height:100px;
+    margin:0;
+}
+#display{
+    min-height:100px;
+}
