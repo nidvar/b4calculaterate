@@ -2,8 +2,10 @@ const first_country = document.getElementById('firstCountry')
 const second_country = document.getElementById('secondCountry')
 const first_amount = document.getElementById('firstValue')
 const second_amount = document.getElementById('secondValue')
+const my_array = [first_country, second_country, first_amount, second_amount]
 
 let rates;
+let result;
 
 fetch(`https://prime.exchangerate-api.com/v5/b874cac194880c1d746b03a8/latest/USD`)
 .then((data)=>{
@@ -17,31 +19,41 @@ fetch(`https://prime.exchangerate-api.com/v5/b874cac194880c1d746b03a8/latest/USD
     return x
 })
 
-function calculate(country1, country2, value1, value2){
-    console.log(`${country1}: ${rates[country1]}, ${country2} : ${rates[country2]}`)
+function calculate_rate(country1, country2, value){
+    const rate = (1/rates[country1])*rates[country2]
 
-    first_amount.value = rates[country1]
-    second_amount.value = rates[country2]
+    result = value*rate
+    console.log(result.toFixed(2))
+
+
 }
 
-document.getElementById('firstCountry').addEventListener('input',(e)=>{
-    calculate(first_country.value, second_country.value)
-});
+first_country.addEventListener('input',(e)=>{
+    console.log(e.target.value)
+    calculate_rate(e.target.value, second_country.value)
+    first_amount.value = ''
+    second_amount.value = ''
+})
 
-document.getElementById('secondCountry').addEventListener('input',(e)=>{
-    calculate(first_country.value, second_country.value)
-});
+second_country.addEventListener('input',(e)=>{
+    console.log(e.target.value)
+    calculate_rate(first_country.value, e.target.value)
+    first_amount.value = ''
+    second_amount.value = ''
+})
 
+first_amount.addEventListener('input',(e)=>{
+    console.log(e.target.value)
+    console.log(e.target.id)
+    calculate_rate(first_country.value, second_country.value,e.target.value)
+    second_amount.value = result.toFixed(2)
+})
 
+second_amount.addEventListener('input',(e)=>{
+    console.log(e.target.value)
+    console.log(e.target)
+    calculate_rate(second_country.value, first_country.value, e.target.value)
+    first_amount.value = result.toFixed(2)
+})
 
-
-
-
-document.getElementById('firstValue').addEventListener('input',(e)=>{
-    const first_value = e.target.value
-    console.log(first_value)
-});
-document.getElementById('secondValue').addEventListener('input',(e)=>{
-    const second_value = e.target.value
-    console.log(second_value)
-});
+//const x = (1/rates[first])*rates[second].toFixed(2)
